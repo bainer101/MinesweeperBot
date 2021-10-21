@@ -7,10 +7,10 @@ class Board:
         self.board = []
         self.x = x
         self.y = y
-        self.setBoard(self.board)
+        self.setBoard()
 
     # Sets the size of the board based on the x and y
-    def setBoard(self, board):
+    def setBoard(self):
         for x in range(self.x):
             self.board.append([])
             for y in range(self.y):
@@ -23,9 +23,18 @@ class Board:
 
     def getBoard(self):
         for row in self.board:
-            print(row)
+            if(row == None):
+                print('HELLO')
+            else:
+                print(row)
     
     # Changes the size of the board
-    def changeDimensions(self):
-        pass
+    def changeDimensions(self, newX, newY):
+        self.board = []
+        self.x = newX
+        self.y = newY
+        for x in range(self.x):
+            self.board.append([])
+            for y in range(self.y):
+                self.board[x].append(0)
     
