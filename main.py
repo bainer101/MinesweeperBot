@@ -1,8 +1,12 @@
+from src.classes.Controller import Controller
+from src.enums.Difficulty import Difficulty
+from src.enums.DisplaySize import DisplaySize
 from src.classes.Board import Board
 
-b1 = Board(10, 10)
-print(b1.x)
-print(b1.y)
-print(b1.getBoard())
-b1.changeDimensions(12, 12)
-print(b1.getBoard())
+def main():
+    controller = Controller("https://www.minesweeperonline.com/", Difficulty.INTERMEDIATE, DisplaySize.TWO_HUNDRED)
+
+
+if __name__ == '__main__':
+    main()
+
