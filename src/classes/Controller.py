@@ -1,18 +1,21 @@
 import os
 
 from selenium import webdriver
-from selenium.webdriver import Keys
+from ..enums.DisplaySize import DisplaySize
 
 
 # Takes in URL of the Minesweeper game as a parameter
 class Controller:
     # Initialises the Controller object by getting the Chrome driver from environment variables and loading URL
-    def __init__(self, url):
+    def __init__(self, url, difficulty, size, settings=None):
         options = webdriver.ChromeOptions()
         options.add_experimental_option('detach', True)
 
         self.driver = webdriver.Chrome(os.environ.get('CHROME_DRIVER'), options=options)
         self.driver.get(url)
+
+        self.setDisplaySize(size)
+        self.changeDifficulty(difficulty, settings)
 
     # Finds all cells, filters out those that are hidden and returns dimensions of the board
     def getCellDimensions(self):
@@ -34,3 +37,22 @@ class Controller:
                 x.send_keys(str(settings[i]))
 
         self.driver.find_element('css selector', '#options > tbody > tr:nth-child(7) > td:nth-child(1) > input').click()
+
+    # Increases the display size to 200%
+    def setDisplaySize(self, size):
+        self.driver.find_element('id', 'display-link').click()
+        self.driver.find_element('id', size.value).click()
+        self.driver.find_element('id', 'display-link').click()
+
+    # Gets the current display size
+    def getDisplaySize(self):
+        self.driver.find_element('id', 'display-link').click()
+
+        out = None
+        for size in DisplaySize:
+            if self.driver.find_element('id', size.value).is_selected():
+                out = size
+                break
+
+        self.driver.find_element('id', 'display-link').click()
+        return out
