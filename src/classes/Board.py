@@ -1,8 +1,7 @@
-
-#Takes in the size of the board as parameters
+# Takes in the size of the board as parameters
 class Board:
 
-    #Initalised the board object and calls setBoard
+    # Initialised the board object and calls setBoard
     def __init__(self, x, y):
         self.board = []
         self.x = x
@@ -11,30 +10,24 @@ class Board:
 
     # Sets the size of the board based on the x and y
     def setBoard(self):
-        for x in range(self.x):
+        for y in range(self.y):
             self.board.append([])
-            for y in range(self.y):
-                self.board[x].append(0)
-
+            for x in range(self.x):
+                self.board[y].append(None)
 
     # Returns the size of the board
     def getBoardSize(self):
         return self.x, self.y
 
     def getBoard(self):
-        for row in self.board:
-            if(row == None):
-                print('HELLO')
-            else:
-                print(row)
-    
+        return self.board
+
     # Changes the size of the board
-    def changeDimensions(self, newX, newY):
+    def changeDimensions(self, new_x, new_y):
         self.board = []
-        self.x = newX
-        self.y = newY
-        for x in range(self.x):
+        self.x = new_x
+        self.y = new_y
+        for y in range(self.y):
             self.board.append([])
-            for y in range(self.y):
-                self.board[x].append(0)
-    
+            for x in range(self.x):
+                self.board[y].append(None)
