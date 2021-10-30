@@ -20,7 +20,7 @@ class ControllerTest(unittest.TestCase):
             self.assertEqual(self.controller.getCellDimensions(), (16, 16))
         with self.subTest():
             self.controller.changeDifficulty(Difficulty.CUSTOM, (50, 25, 100))
-            self.assertEqual(self.controller.getCellDimensions(), (25, 50))
+            self.assertEqual(self.controller.getCellDimensions(), (50, 25))
 
     def test_change_display_size(self):
         with self.subTest():
