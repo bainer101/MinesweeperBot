@@ -1,31 +1,44 @@
 import os
 
 from selenium import webdriver
+
+from ..enums.Difficulty import Difficulty
 from ..enums.DisplaySize import DisplaySize
 
 
 # Takes in URL of the Minesweeper game as a parameter
 class Controller:
     # Initialises the Controller object by getting the Chrome driver from environment variables and loading URL
-    def __init__(self, url, difficulty, size, settings=None):
+    def __init__(self, url, difficulty, size, settings=(None, None, None)):
+        self.url = url
+        self.difficulty = difficulty
+        self.size = size
+        self.settings = settings
+
         options = webdriver.ChromeOptions()
         options.add_experimental_option('detach', True)
 
         self.driver = webdriver.Chrome(os.environ.get('CHROME_DRIVER'), options=options)
-        self.driver.get(url)
+        self.driver.get(self.url)
 
-        self.setDisplaySize(size)
-        self.changeDifficulty(difficulty, settings)
+        self.setDisplaySize(self.size)
+        self.changeDifficulty(self.difficulty, self.settings)
 
-    # Finds all cells, filters out those that are hidden and returns dimensions of the board
+    # Returns dimensions of the board from the difficulty
     def getCellDimensions(self):
-        cells = self.driver.find_elements('class name', 'square')
-        cells = list(filter(lambda c: 'display: none' not in c.get_attribute('outerHTML'), cells))
-        y, x = tuple([int(x) for x in cells[-1].get_attribute('id').split('_')])
-        return x, y
+        dimensions = {
+            Difficulty.BEGINNER: (9, 9),
+            Difficulty.INTERMEDIATE: (16, 16),
+            Difficulty.EXPERT: (30, 16),
+            Difficulty.CUSTOM: tuple(self.settings[0:2])
+        }
+
+        return dimensions[self.difficulty]
 
     # Changes difficulty depending on user's preference
-    def changeDifficulty(self, difficulty, settings=None):
+    def changeDifficulty(self, difficulty, settings=(None, None, None)):
+        self.difficulty = difficulty
+        self.settings = settings
         self.driver.find_element('id', 'options-link').click()
         self.driver.find_element('id', difficulty.value).click()
 
