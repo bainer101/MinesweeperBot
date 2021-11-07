@@ -40,7 +40,7 @@ class ControllerTest(unittest.TestCase):
             y = randint(1, self.controller.getCellDimensions()[1])
             cell = Cell(x, y)
             self.controller.clickCell(cell)
-            self.assertIn(self.controller.readCell(cell), [None]+list(range(-1, 9)))
+            self.assertIn(self.controller.readCell(cell), [None, 'Flag']+list(range(-1, 9)))
 
 
 if __name__ == '__main__':

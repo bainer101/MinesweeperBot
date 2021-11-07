@@ -78,7 +78,9 @@ class Controller:
 
         if val == 'blank':
             return None
-        if "bomb" in val:
+        elif 'bombflagged' in val:
+            return 'Flag'
+        elif 'bomb' in val:
             return -1
         else:
             return int(val[-1])
