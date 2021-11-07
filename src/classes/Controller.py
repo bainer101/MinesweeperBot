@@ -2,6 +2,8 @@ import os
 
 from selenium import webdriver
 
+from .Cell import Cell
+
 from ..enums.Difficulty import Difficulty
 from ..enums.DisplaySize import DisplaySize
 
@@ -69,3 +71,20 @@ class Controller:
 
         self.driver.find_element('id', 'display-link').click()
         return out
+
+    # Reads the given cell's value from the game
+    def readCell(self, cell: Cell):
+        val = self.driver.find_element('id', cell.getID()).get_attribute('class').split(' ')[1]
+
+        if val == 'blank':
+            return None
+        elif 'bombflagged' in val:
+            return 'Flag'
+        elif 'bomb' in val:
+            return -1
+        else:
+            return int(val[-1])
+
+    # Click on a given cell
+    def clickCell(self, cell: Cell):
+        self.driver.find_element('id', cell.getID()).click()

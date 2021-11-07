@@ -1,5 +1,7 @@
 import unittest
+from random import randint
 from ..classes.Controller import Controller
+from ..classes.Cell import Cell
 from ..enums.Difficulty import Difficulty
 from ..enums.DisplaySize import DisplaySize
 
@@ -31,6 +33,14 @@ class ControllerTest(unittest.TestCase):
         with self.subTest():
             self.controller.setDisplaySize(DisplaySize.ONE_HUNDRED_FIFTY)
             self.assertEqual(self.controller.getDisplaySize(), DisplaySize.ONE_HUNDRED_FIFTY)
+
+    def test_click_and_read(self):
+        for x in range(10):
+            x = randint(1, self.controller.getCellDimensions()[0])
+            y = randint(1, self.controller.getCellDimensions()[1])
+            cell = Cell(x, y)
+            self.controller.clickCell(cell)
+            self.assertIn(self.controller.readCell(cell), [None, 'Flag']+list(range(-1, 9)))
 
 
 if __name__ == '__main__':
